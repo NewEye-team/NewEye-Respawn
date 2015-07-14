@@ -1,0 +1,7 @@
+name: NewEYE-Respawn
+version: 0.1
+main: NewEyeRespawn.Respawn
+commands:
+  Respawn:
+    usage: /respawn
+    description: all respawn commands
