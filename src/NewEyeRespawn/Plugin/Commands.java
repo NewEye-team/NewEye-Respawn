@@ -18,9 +18,12 @@ public class Commands implements CommandExecutor{
 				Player player = (Player)sender;
 				if (args.length == 0){
 					//help
-					player.sendMessage(ChatColor.AQUA + "/respawn setArea <name>");
+					if (player.hasPermission("nerespawn.setarea")){
+						player.sendMessage(ChatColor.AQUA + "/respawn setArea <name>");
+					}
+					return true;
 				}else{
-					if (args[0].equalsIgnoreCase("setArea") && (sender.hasPermission("nerespawn.setarea"))){
+					if (args[0].equalsIgnoreCase("setArea") && (player.hasPermission("nerespawn.setarea"))){
 						if (args.length >= 2){
 							String name = args[1];
 							Location loc = player.getLocation().add(0, 2, 0);

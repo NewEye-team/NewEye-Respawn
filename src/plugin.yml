@@ -1,0 +1,3 @@
+name: NewEye-Respawn
+main: src.NewEye-Respawn.Respawn
+version: 0.2
