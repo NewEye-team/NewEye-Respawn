@@ -1,5 +1,6 @@
 package NewEyeRespawn.Plugin;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,14 +13,14 @@ public class Commands implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String arg2, String[] args) {
-		if (cmd.getName().equalsIgnoreCase("respawn")){
+		if (cmd.getName().equalsIgnoreCase("respawn") && (sender.hasPermission("nerespawn.respawn"))){
 			if (sender instanceof Player){
 				Player player = (Player)sender;
 				if (args.length == 0){
 					//help
-					player.sendMessage("/respawn setArea <name>");
+					player.sendMessage(ChatColor.AQUA + "/respawn setArea <name>");
 				}else{
-					if (args[0].equalsIgnoreCase("setArea")){
+					if (args[0].equalsIgnoreCase("setArea") && (sender.hasPermission("nerespawn.setarea"))){
 						if (args.length >= 2){
 							String name = args[1];
 							Location loc = player.getLocation().add(0, 2, 0);
@@ -28,8 +29,9 @@ public class Commands implements CommandExecutor{
 						}
 					}
 				}
+					
+				}
 			}
-		}
 		return false;
 	}
 

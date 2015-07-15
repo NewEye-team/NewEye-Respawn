@@ -4,7 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,6 +19,8 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+
+
 
 import NewEyeRespawn.API.Area;
 import NewEyeRespawn.API.Respawning;
@@ -61,7 +65,7 @@ public class Listeners implements Listener{
 			}
 			Location loc2 = respawner.getRespawnArea().getLocation();
 			if (loc2.distance(loc) > (respawner.getRespawnArea().getRadius()*2)){
-				event.getPlayer().sendMessage("Too far out");
+				event.getPlayer().sendMessage(ChatColor.RED + "Too far out");
 				event.setCancelled(true);
 			}
 		}
@@ -86,7 +90,7 @@ public class Listeners implements Listener{
 						return;
 					}
 				}else{
-					player.sendMessage("Something went wrong: can not find current location");
+					player.sendMessage(ChatColor.RED + "Something went wrong: can not find current location");
 				}
 			}
 		}
@@ -113,5 +117,9 @@ public class Listeners implements Listener{
 			}
 		}
 	}
+	
+
+
+	
 
 }

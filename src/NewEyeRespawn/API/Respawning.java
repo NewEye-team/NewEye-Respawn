@@ -4,8 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import NewEyeRespawn.Respawn;
 
@@ -15,9 +22,11 @@ public class Respawning {
 	Area AREA;
 	List<Area> GOTOAREA = new ArrayList<Area>();
 	
-	static List<Respawning> RESPAWNING = new ArrayList<Respawning>();
+	public static List<Respawning> RESPAWNING = new ArrayList<Respawning>();
 	static List<Player> PLAYERS = new ArrayList<Player>();
 	
+	
+	@SuppressWarnings({ "unused" })
 	public Respawning(Player player, Area area){
 		PLAYER = player;
 		AREA = area;
@@ -25,6 +34,9 @@ public class Respawning {
 		player.setAllowFlight(true);
 		player.setFlying(true);
 		RESPAWNING.add(this);
+		 PlayerInventory inventory = player.getInventory();
+         ItemStack itemstack = new ItemStack(arrow());
+         inventory.addItem(new ItemStack[] { arrow() });
 	}
 	
 	public Player getPlayer(){
@@ -46,13 +58,15 @@ public class Respawning {
 	public void setRespawnArea(Area area){
 		AREA = area;
 		PLAYER.teleport(area.getLocation());
-		PLAYER.sendMessage("Area: " + area);
+		PLAYER.sendMessage(ChatColor.GREEN + "Area: " + area);
 	}
 	
 	public void spawn(){
 		if ((PLAYER.getGameMode().equals(GameMode.SURVIVAL)) || (PLAYER.getGameMode().equals(GameMode.ADVENTURE))){
 			PLAYER.setFlying(false);
 			PLAYER.setAllowFlight(false);
+			PlayerInventory inventory = PLAYER.getInventory();
+			inventory.removeItem(arrow());
 		}
 		RESPAWNING.remove(this);
 		PLAYERS.add(PLAYER);
@@ -60,7 +74,9 @@ public class Respawning {
 
 			@Override
 			public void run() {
-				PLAYER.sendMessage("Respawned");
+				PLAYER.sendMessage(ChatColor.GREEN + "Respawned");
+				Location loc = PLAYER.getLocation();
+				PLAYER.playSound(loc, Sound.LEVEL_UP, 1.0F, 0.0F);
 				PLAYERS.remove(PLAYER);
 			}
 			
@@ -83,4 +99,19 @@ public class Respawning {
 	public static List<Player> getInvPlayers(){
 		return PLAYERS;
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private ItemStack arrow()
+	  {
+	    ItemStack d = new ItemStack(Material.ARROW, 1);
+	    ItemMeta m = d.getItemMeta();
+	    m.setDisplayName(ChatColor.AQUA + "Fall on the ground and you will be respawned");
+	    List<String> s = new ArrayList();
+	    s.add(ChatColor.DARK_PURPLE + "Fall on the ground and you will be respawned");
+	    m.setLore(s);
+	    d.setItemMeta(m);
+	    return d;
 }
+	
+
+	}
